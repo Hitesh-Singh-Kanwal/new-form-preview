@@ -14,11 +14,28 @@ export default function Home() {
   }
 
   const handleOpenWindow = () => {
-    const newWindow = window.open()
-    if (!newWindow) return
-    newWindow.document.open()
-    newWindow.document.write(html || '<p>No HTML provided</p>')
-    newWindow.document.close()
+    if (!html) {
+      const newWindow = window.open()
+      if (!newWindow) return
+      newWindow.document.open()
+      newWindow.document.write('<p>No HTML provided</p>')
+      newWindow.document.close()
+      return
+    }
+
+    try {
+      // base64-encode Unicode-safe
+      const encoded = btoa(unescape(encodeURIComponent(html)))
+      const url = `/standalone?html=${encodeURIComponent(encoded)}`
+      window.open(url, '_blank')
+    } catch (e) {
+      // fallback: open raw HTML in new window
+      const newWindow = window.open()
+      if (!newWindow) return
+      newWindow.document.open()
+      newWindow.document.write(html)
+      newWindow.document.close()
+    }
   }
 
   return (

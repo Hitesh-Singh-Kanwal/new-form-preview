@@ -31,6 +31,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/preview.js"
+    ],
+    "/standalone": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/standalone.js"
     ]
   },
   "ampFirstPages": []

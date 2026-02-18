@@ -13,11 +13,26 @@ export default function Preview() {
   }, [])
 
   const openStandalone = () => {
-    const w = window.open()
-    if (!w) return
-    w.document.open()
-    w.document.write(html || '<p>No HTML provided</p>')
-    w.document.close()
+    if (!html) {
+      const w = window.open()
+      if (!w) return
+      w.document.open()
+      w.document.write('<p>No HTML provided</p>')
+      w.document.close()
+      return
+    }
+
+    try {
+      const encoded = btoa(unescape(encodeURIComponent(html)))
+      const url = `/standalone?html=${encodeURIComponent(encoded)}`
+      window.open(url, '_blank')
+    } catch (e) {
+      const w = window.open()
+      if (!w) return
+      w.document.open()
+      w.document.write(html)
+      w.document.close()
+    }
   }
 
   if (html === null) {
